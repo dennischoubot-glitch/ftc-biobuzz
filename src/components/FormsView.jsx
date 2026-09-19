@@ -200,7 +200,7 @@ export default function FormsView({ data, update }) {
             <div>
               <div>{form.name}</div>
               <div style={{ fontSize: 11, fontWeight: 400, color: 'var(--text-secondary)' }}>
-                {form.questions.length} questions — {data.scoutingEntries.filter(e => e.formId === form.id).length} entries
+                {form.questions.length} questions, {data.scoutingEntries.filter(e => e.formId === form.id).length} entries
               </div>
             </div>
             <div style={{ display: 'flex', gap: 4 }}>

@@ -85,7 +85,7 @@ export default function FTCSearchView({ data, update, onViewTeam }) {
             </div>
             <div style={{ fontSize: 17, fontWeight: 700 }}>{detail.name}</div>
             <div style={{ fontSize: 12, color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: 4 }}>
-              <MapPin size={11} /> {detail.schoolName} — {detail.location?.city}, {detail.location?.state}
+              <MapPin size={11} /> {detail.schoolName}, {detail.location?.city}, {detail.location?.state}
             </div>
             <div style={{ fontSize: 11, color: 'var(--text-secondary)', display: 'flex', gap: 8, flexWrap: 'wrap', marginTop: 2 }}>
               <span>Rookie year: {detail.rookieYear}</span>
@@ -102,7 +102,7 @@ export default function FTCSearchView({ data, update, onViewTeam }) {
         {qs && (
           <>
             <div className="section-title">
-              Season OPR — {detail.statsSeason === 2026 ? 'BioBuzz 2026' : detail.statsSeason === 2025 ? '2025 Season' : 'Latest'}
+              Season OPR ({detail.statsSeason === 2026 ? 'BioBuzz 2026' : detail.statsSeason === 2025 ? '2025 Season' : 'Latest'})
             </div>
             <div className="stat-grid">
               <div className="stat-box">
@@ -313,7 +313,7 @@ export default function FTCSearchView({ data, update, onViewTeam }) {
         <div className="empty" style={{ paddingTop: 60 }}>
           <Globe size={48} />
           <p style={{ fontSize: 16, fontWeight: 600, marginBottom: 4 }}>Search any FTC team</p>
-          <p style={{ fontSize: 12 }}>Data from FTCScout.org — OPR, events, awards</p>
+          <p style={{ fontSize: 12 }}>Data from FTCScout.org: OPR, events, awards</p>
         </div>
       )}
     </>

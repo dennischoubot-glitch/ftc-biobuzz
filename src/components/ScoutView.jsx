@@ -104,7 +104,7 @@ export default function ScoutView({ data, update, initialTeam, initialMatch }) {
           <Check size={32} color="var(--success)" />
         </div>
         <h2 style={{ color: 'var(--success)', marginBottom: 8, fontSize: 22, fontWeight: 800 }}>Scouting Saved!</h2>
-        <p style={{ fontSize: 16, fontWeight: 600 }}>Team #{teamNumber} {teamInfo && `— ${teamInfo.name}`}</p>
+        <p style={{ fontSize: 16, fontWeight: 600 }}>Team #{teamNumber} {teamInfo && `(${teamInfo.name})`}</p>
         <p style={{ fontSize: 13, color: 'var(--text-secondary)' }}>Match {matchNumber || 'N/A'}</p>
         <div style={{ display: 'flex', gap: 8, justifyContent: 'center', marginTop: 24 }}>
           <button className="btn btn-primary" onClick={scoutAnother}>
@@ -154,8 +154,8 @@ export default function ScoutView({ data, update, initialTeam, initialMatch }) {
                 <div className="card-row-left">
                   <span className="card-row-number">#{entry.teamNumber}</span>
                   <span className="card-row-name">
-                    {entry.formName} {entry.matchNumber && `— Match ${entry.matchNumber}`}
-                    {entry.scoutName && ` — ${entry.scoutName}`}
+                    {entry.formName} {entry.matchNumber && `/ Match ${entry.matchNumber}`}
+                    {entry.scoutName && ` (${entry.scoutName})`}
                   </span>
                 </div>
                 <div className="card-row-right">
@@ -207,7 +207,7 @@ export default function ScoutView({ data, update, initialTeam, initialMatch }) {
         </div>
         {teamInfo && (
           <div style={{ marginTop: 6, fontSize: 12, color: 'var(--success)', fontWeight: 600 }}>
-            {teamInfo.name} {teamInfo.school && `— ${teamInfo.school}`}
+            {teamInfo.name} {teamInfo.school && `(${teamInfo.school})`}
           </div>
         )}
       </div>

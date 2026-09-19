@@ -75,7 +75,7 @@ export default function TeamDetail({ team, data, update, onBack, onDelete }) {
         <div style={{ fontSize: 18, fontWeight: 600 }}>{ftcData?.name || team.name}</div>
         <div style={{ fontSize: 13, color: 'var(--text-secondary)', marginTop: 2 }}>
           {ftcData?.schoolName || team.school}
-          {ftcData?.location && ` — ${ftcData.location.city}, ${ftcData.location.state}`}
+          {ftcData?.location && `, ${ftcData.location.city}, ${ftcData.location.state}`}
         </div>
         {ftcData?.rookieYear && <div style={{ fontSize: 11, color: 'var(--text-secondary)', marginTop: 2 }}>Rookie year: {ftcData.rookieYear}</div>}
         {ftcData?.website && (
@@ -99,7 +99,7 @@ export default function TeamDetail({ team, data, update, onBack, onDelete }) {
             <>
               <div className="section-title" style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
                 <Globe size={12} />
-                FTCScout OPR — {ftcData?.statsSeason === 2026 ? 'BioBuzz 2026' : ftcData?.statsSeason === 2025 ? '2025 Season' : 'Latest'}
+                FTCScout OPR ({ftcData?.statsSeason === 2026 ? 'BioBuzz 2026' : ftcData?.statsSeason === 2025 ? '2025 Season' : 'Latest'})
               </div>
               <div className="stat-grid">
                 <div className="stat-box">
@@ -306,7 +306,7 @@ export default function TeamDetail({ team, data, update, onBack, onDelete }) {
                 return (
                   <div key={entry.id} className="card-row" style={{ flexDirection: 'column', alignItems: 'stretch', cursor: 'default' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                      <span style={{ fontWeight: 500, fontSize: 13 }}>{entry.formName} {entry.matchNumber && `— Match ${entry.matchNumber}`}</span>
+                      <span style={{ fontWeight: 500, fontSize: 13 }}>{entry.formName} {entry.matchNumber && `/ Match ${entry.matchNumber}`}</span>
                       <span style={{ fontSize: 11, color: 'var(--text-secondary)' }}>
                         {new Date(entry.timestamp).toLocaleDateString()} {entry.scoutName && `by ${entry.scoutName}`}
                       </span>

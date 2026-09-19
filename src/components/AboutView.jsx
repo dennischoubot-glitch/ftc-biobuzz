@@ -25,7 +25,7 @@ export default function AboutView({ data, onNavigate, is404 }) {
           <div className="hero-badge">FTC Team #16278</div>
           <h2 className="hero-title">Error 404</h2>
           <p className="hero-subtitle" style={{ margin: '0 auto' }}>
-            BioBuzz Scout — built by our team for the FTC 2026-2027 BioBuzz season
+            BioBuzz Scout: built by our team for the FTC 2026-2027 BioBuzz season
           </p>
         </div>
       </div>
@@ -37,7 +37,7 @@ export default function AboutView({ data, onNavigate, is404 }) {
         </div>
         <div className="card-body" style={{ lineHeight: 1.7, fontSize: 14 }}>
           <p>
-            We are <strong>Error 404</strong>, FTC Team #16278 — a team of 8th and 9th graders
+            We are <strong>Error 404</strong>, FTC Team #16278, a team of 8th and 9th graders
             competing in the 2026-2027 BioBuzz season. This is our <strong>second year</strong> as
             a team. Our team number is reused from a previous team that is no longer active, so while
             the number has history, we're writing our own chapter.
@@ -81,7 +81,7 @@ export default function AboutView({ data, onNavigate, is404 }) {
           <p>
             At competitions, data wins matches. We wanted a tool that would let us
             scout every team, track OPR stats from FTCScout, record our own observations, and
-            make <strong>data-driven decisions</strong> during alliance selection — instead of
+            make <strong>data-driven decisions</strong> during alliance selection instead of
             relying on gut feeling alone.
           </p>
           <p style={{ marginTop: 12 }}>
@@ -109,13 +109,13 @@ export default function AboutView({ data, onNavigate, is404 }) {
             </div>
           </div>
           <ul style={{ paddingLeft: 20, display: 'flex', flexDirection: 'column', gap: 8 }}>
-            <li><strong>FTC Lookup</strong> — Search any team by number or name, pull live OPR and event data from FTCScout</li>
-            <li><strong>Team Tracker</strong> — Build your competition watchlist with OPR rankings and scouting coverage</li>
-            <li><strong>Match Schedule</strong> — Track your matches, record scores, see win/loss at a glance</li>
-            <li><strong>Custom Scouting</strong> — Fully customizable forms for match scouting and pit scouting with ratings, counters, and notes</li>
-            <li><strong>Pick List</strong> — Tier-ranked alliance selection board: Must Pick, Good Pick, Backup, Do Not Pick</li>
-            <li><strong>Analytics</strong> — Compare teams side-by-side with OPR breakdowns, scouting averages, and data visualizations</li>
-            <li><strong>Data Sharing</strong> — Export and import JSON files to share scouting data across the whole team</li>
+            <li><strong>FTC Lookup</strong> : Search any team by number or name, pull live OPR and event data from FTCScout</li>
+            <li><strong>Team Tracker</strong> : Build your competition watchlist with OPR rankings and scouting coverage</li>
+            <li><strong>Match Schedule</strong> : Track your matches, record scores, see win/loss at a glance</li>
+            <li><strong>Custom Scouting</strong> : Fully customizable forms for match scouting and pit scouting with ratings, counters, and notes</li>
+            <li><strong>Pick List</strong> : Tier-ranked alliance selection board: Must Pick, Good Pick, Backup, Do Not Pick</li>
+            <li><strong>Analytics</strong> : Compare teams side-by-side with OPR breakdowns, scouting averages, and data visualizations</li>
+            <li><strong>Data Sharing</strong> : Export and import JSON files to share scouting data across the whole team</li>
           </ul>
         </div>
       </div>
@@ -127,14 +127,14 @@ export default function AboutView({ data, onNavigate, is404 }) {
         </div>
         <div className="card-body" style={{ lineHeight: 1.7, fontSize: 14 }}>
           <p>
-            We identified a problem — lack of accessible, free scouting tools — designed a
+            We identified a problem (lack of accessible, free scouting tools), designed a
             solution, built iteratively with feedback from team members, and deployed it as a
             free static website hosted on GitHub Pages.
           </p>
           <p style={{ marginTop: 12 }}>
             <strong>Tech stack:</strong> React, Vite, FTCScout GraphQL API, localStorage for
-            offline-first data, GitHub Actions for CI/CD. All data stays on the user's device —
-            no server, no database, no accounts needed.
+            offline-first data, GitHub Actions for CI/CD. All data stays on the user's device.
+            No server, no database, no accounts needed.
           </p>
         </div>
       </div>
@@ -161,7 +161,7 @@ export default function AboutView({ data, onNavigate, is404 }) {
 
       <div className="app-footer">
         <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 2 }}>BioBuzz Scout v3.0</div>
-        <div>Error 404 — FTC #16278</div>
+        <div>Error 404 | FTC #16278</div>
         <div>FIRST Tech Challenge 2026-2027 BioBuzz Season</div>
         <div style={{ marginTop: 4, fontSize: 11, opacity: 0.7 }}>
           Data powered by FTCScout.org | Stored locally on device
