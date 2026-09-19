@@ -748,7 +748,7 @@ body {
 
 /* Page transition */
 .page-transition {
-  animation: pageIn 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  animation: pageIn 0.5s cubic-bezier(0.22, 1, 0.36, 1);
 }
 @keyframes pageIn {
   from { opacity: 0; transform: translateY(8px); }
