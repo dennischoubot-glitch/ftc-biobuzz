@@ -99,7 +99,7 @@ export default function TeamDetail({ team, data, update, onBack, onDelete }) {
             <>
               <div className="section-title" style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
                 <Globe size={12} />
-                FTCScout OPR — {ftcData?.statsSeason === 2025 ? 'BioBuzz 2025' : ftcData?.statsSeason === 2024 ? 'Into The Deep 2024' : 'Latest'}
+                FTCScout OPR — {ftcData?.statsSeason === 2026 ? 'BioBuzz 2026' : ftcData?.statsSeason === 2025 ? '2025 Season' : 'Latest'}
               </div>
               <div className="stat-grid">
                 <div className="stat-box">

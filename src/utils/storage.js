@@ -8,7 +8,7 @@ const defaultData = {
     {
       id: 'match-scout',
       name: 'Match Scouting',
-      description: 'BioBuzz 2025-2026 in-match scouting',
+      description: 'BioBuzz 2026-2027 in-match scouting',
       questions: [
         // Autonomous
         { id: 'auto-leave', label: 'Auto: Left starting zone?', type: 'boolean', required: true, section: 'Autonomous' },

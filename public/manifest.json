@@ -1,7 +1,7 @@
 {
   "name": "BioBuzz Scout",
   "short_name": "BioBuzz",
-  "description": "FTC BioBuzz 2025-2026 Scouting App",
+  "description": "FTC BioBuzz 2026-2027 Scouting App",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#cc0000",

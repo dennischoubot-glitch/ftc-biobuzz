@@ -102,7 +102,7 @@ export default function FTCSearchView({ data, update, onViewTeam }) {
         {qs && (
           <>
             <div className="section-title">
-              Season OPR — {detail.statsSeason === 2025 ? 'BioBuzz 2025' : detail.statsSeason === 2024 ? 'Into The Deep 2024' : 'Latest'}
+              Season OPR — {detail.statsSeason === 2026 ? 'BioBuzz 2026' : detail.statsSeason === 2025 ? '2025 Season' : 'Latest'}
             </div>
             <div className="stat-grid">
               <div className="stat-box">

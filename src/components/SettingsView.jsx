@@ -161,8 +161,8 @@ export default function SettingsView({ data, update }) {
       </div>
 
       <div style={{ textAlign: 'center', padding: '24px 20px 12px', color: 'var(--text-secondary)', fontSize: 12 }}>
-        <div style={{ fontWeight: 700, fontSize: 14, marginBottom: 4 }}>BioBuzz Scout v2.0</div>
-        <div>FIRST Tech Challenge 2025-2026</div>
+        <div style={{ fontWeight: 700, fontSize: 14, marginBottom: 4 }}>BioBuzz Scout v3.0</div>
+        <div>FIRST Tech Challenge 2026-2027</div>
         <div style={{ marginTop: 4, fontSize: 11 }}>Data stored locally on this device</div>
         <div style={{ marginTop: 2, fontSize: 11 }}>Stats from FTCScout.org</div>
       </div>

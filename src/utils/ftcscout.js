@@ -17,7 +17,7 @@ export async function searchTeams(searchText, limit = 30) {
   if (isNumber) {
     const num = parseInt(searchText.trim());
     const [directResult, searchResult] = await Promise.allSettled([
-      gql(`query($n: Int!) { teamByNumber(number: $n) { number name schoolName location { city state country } rookieYear activeSeasons quickStats(season: 2024) { tot { value rank } auto { value rank } dc { value rank } eg { value rank } count } } }`, { n: num }),
+      gql(`query($n: Int!) { teamByNumber(number: $n) { number name schoolName location { city state country } rookieYear activeSeasons quickStats(season: 2025) { tot { value rank } auto { value rank } dc { value rank } eg { value rank } count } } }`, { n: num }),
       gql(`query($s: String!, $l: Int!) { teamsSearch(searchText: $s, limit: $l) { number name schoolName location { city state country } rookieYear activeSeasons } }`, { s: searchText.trim(), l: limit }),
     ]);
 
@@ -53,10 +53,22 @@ export async function getTeamDetail(number) {
         number name schoolName website
         location { city state country }
         rookieYear activeSeasons
+        stats2026: quickStats(season: 2026) { tot { value rank } auto { value rank } dc { value rank } eg { value rank } count }
         stats2025: quickStats(season: 2025) { tot { value rank } auto { value rank } dc { value rank } eg { value rank } count }
-        stats2024: quickStats(season: 2024) { tot { value rank } auto { value rank } dc { value rank } eg { value rank } count }
+        awards2026: awards(season: 2026) { type placement event { name } }
         awards2025: awards(season: 2025) { type placement event { name } }
-        awards2024: awards(season: 2024) { type placement event { name } }
+        events2026: events(season: 2026) {
+          eventCode
+          event { name start end }
+          stats {
+            ... on TeamEventStats2026 {
+              rank rp wins losses ties qualMatchesPlayed
+              avg { totalPoints autoPoints dcPoints totalPointsNp }
+              opr { totalPoints autoPoints dcPoints }
+              max { totalPoints autoPoints dcPoints }
+            }
+          }
+        }
         events2025: events(season: 2025) {
           eventCode
           event { name start end }
@@ -69,18 +81,6 @@ export async function getTeamDetail(number) {
             }
           }
         }
-        events2024: events(season: 2024) {
-          eventCode
-          event { name start end }
-          stats {
-            ... on TeamEventStats2024 {
-              rank rp wins losses ties qualMatchesPlayed
-              avg { totalPoints autoPoints dcPoints totalPointsNp }
-              opr { totalPoints autoPoints dcPoints }
-              max { totalPoints autoPoints dcPoints }
-            }
-          }
-        }
       }
     }
   `, { n: number });
@@ -88,11 +88,11 @@ export async function getTeamDetail(number) {
   const team = data.teamByNumber;
   if (!team) return null;
 
-  team.quickStats = team.stats2025 || team.stats2024 || null;
-  team.statsSeason = team.stats2025 ? 2025 : team.stats2024 ? 2024 : null;
-  team.awards = [...(team.awards2025 || []), ...(team.awards2024 || [])];
-  team.events = [...(team.events2025 || []), ...(team.events2024 || [])];
-  team.eventsSeason = (team.events2025?.length > 0) ? 2025 : (team.events2024?.length > 0) ? 2024 : null;
+  team.quickStats = team.stats2026 || team.stats2025 || null;
+  team.statsSeason = team.stats2026 ? 2026 : team.stats2025 ? 2025 : null;
+  team.awards = [...(team.awards2026 || []), ...(team.awards2025 || [])];
+  team.events = [...(team.events2026 || []), ...(team.events2025 || [])];
+  team.eventsSeason = (team.events2026?.length > 0) ? 2026 : (team.events2025?.length > 0) ? 2025 : null;
 
   return team;
 }
@@ -104,20 +104,20 @@ export async function getTeamQuickLookup(number) {
         number name schoolName
         location { city state }
         rookieYear activeSeasons
+        stats2026: quickStats(season: 2026) { tot { value rank } auto { value rank } dc { value rank } eg { value rank } count }
         stats2025: quickStats(season: 2025) { tot { value rank } auto { value rank } dc { value rank } eg { value rank } count }
-        stats2024: quickStats(season: 2024) { tot { value rank } auto { value rank } dc { value rank } eg { value rank } count }
       }
     }
   `, { n: number });
 
   const team = data.teamByNumber;
   if (!team) return null;
-  team.quickStats = team.stats2025 || team.stats2024 || null;
-  team.statsSeason = team.stats2025 ? 2025 : team.stats2024 ? 2024 : null;
+  team.quickStats = team.stats2026 || team.stats2025 || null;
+  team.statsSeason = team.stats2026 ? 2026 : team.stats2025 ? 2025 : null;
   return team;
 }
 
-export async function searchEvents(limit = 50, season = 2025) {
+export async function searchEvents(limit = 50, season = 2026) {
   const data = await gql(`
     query($l: Int!, $s: Int!) {
       eventsSearch(season: $s, limit: $l) {

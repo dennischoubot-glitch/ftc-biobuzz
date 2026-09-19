@@ -30,7 +30,7 @@ export default function DashboardView({ data, onNavigate }) {
     <>
       <div className="hero">
         <div className="hero-content">
-          <div className="hero-badge">FTC 2025-2026 BioBuzz Season</div>
+          <div className="hero-badge">FTC 2026-2027 BioBuzz Season</div>
           <h2 className="hero-title">
             {data.myTeam?.name ? `Team ${data.myTeam.name}` : 'BioBuzz Scout'}
             {data.myTeam?.number && <span className="hero-number"> #{data.myTeam.number}</span>}
@@ -164,7 +164,7 @@ export default function DashboardView({ data, onNavigate }) {
 
       <div className="app-footer">
         <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 2 }}>BioBuzz Scout</div>
-        <div>FIRST Tech Challenge 2025-2026</div>
+        <div>FIRST Tech Challenge 2026-2027</div>
         <div style={{ marginTop: 4, fontSize: 11, opacity: 0.7 }}>
           Data powered by FTCScout.org | Stored locally on device
         </div>

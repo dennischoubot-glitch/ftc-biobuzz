@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Users, Calendar, ClipboardList, BarChart3, Settings, FileEdit, Globe, ListOrdered, ArrowLeft, LayoutDashboard } from 'lucide-react';
+import { Users, Calendar, ClipboardList, BarChart3, Settings, FileEdit, Globe, ListOrdered, ArrowLeft, LayoutDashboard, Info } from 'lucide-react';
 import { useData } from './hooks/useData';
 import DashboardView from './components/DashboardView';
 import TeamsView from './components/TeamsView';
@@ -11,6 +11,7 @@ import FTCSearchView from './components/FTCSearchView';
 import TeamDetail from './components/TeamDetail';
 import SettingsView from './components/SettingsView';
 import PicklistView from './components/PicklistView';
+import AboutView from './components/AboutView';
 
 const TABS = [
   { id: 'dashboard', label: 'Home', icon: LayoutDashboard },
@@ -22,13 +23,15 @@ const TABS = [
   { id: 'analytics', label: 'Stats', icon: BarChart3 },
 ];
 
-export default function App() {
+export default function App({ initialView }) {
   const [data, update] = useData();
   const [tab, setTab] = useState('dashboard');
   const [selectedTeam, setSelectedTeam] = useState(null);
   const [scoutTarget, setScoutTarget] = useState(null);
   const [showSettings, setShowSettings] = useState(false);
   const [showForms, setShowForms] = useState(false);
+  const [showAbout, setShowAbout] = useState(initialView === 'about-404');
+  const [is404] = useState(initialView === 'about-404');
 
   function handleSelectTeam(team) {
     setSelectedTeam(team);
@@ -45,6 +48,9 @@ export default function App() {
   }
 
   function renderContent() {
+    if (showAbout) {
+      return <AboutView data={data} onNavigate={(t) => { setShowAbout(false); setTab(t); }} is404={is404} />;
+    }
     if (showSettings) {
       return <SettingsView data={data} update={update} />;
     }
@@ -81,9 +87,10 @@ export default function App() {
     }
   }
 
-  const isSubView = showSettings || showForms || selectedTeam;
+  const isSubView = showSettings || showForms || showAbout || selectedTeam;
 
-  const headerTitle = showSettings ? 'Settings'
+  const headerTitle = showAbout ? 'About'
+    : showSettings ? 'Settings'
     : showForms ? 'Scouting Forms'
     : selectedTeam ? `Team #${selectedTeam.number}`
     : null;
@@ -93,7 +100,8 @@ export default function App() {
       <div className="header">
         {isSubView && (
           <button className="header-back" onClick={() => {
-            if (showSettings) setShowSettings(false);
+            if (showAbout) setShowAbout(false);
+            else if (showSettings) setShowSettings(false);
             else if (showForms) setShowForms(false);
             else if (selectedTeam) setSelectedTeam(null);
           }}>
@@ -102,7 +110,7 @@ export default function App() {
         )}
         <div>
           <h1>{headerTitle || 'BioBuzz Scout'}</h1>
-          {!isSubView && <div className="header-season">FTC 2025-2026 Season</div>}
+          {!isSubView && <div className="header-season">FTC 2026-2027 BioBuzz</div>}
         </div>
         {!isSubView && (
           <div className="nav">
@@ -123,6 +131,9 @@ export default function App() {
             <>
               <button className="header-action" onClick={() => setShowForms(true)} title="Edit Forms">
                 <FileEdit size={18} />
+              </button>
+              <button className="header-action" onClick={() => setShowAbout(true)} title="About">
+                <Info size={18} />
               </button>
               <button className="header-action" onClick={() => setShowSettings(true)} title="Settings">
                 <Settings size={18} />
