@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { ChevronUp, ChevronDown, Trash2, Plus, X, GripVertical } from 'lucide-react';
+import { ChevronUp, ChevronDown, Trash2, Plus, X, GripVertical, ListOrdered } from 'lucide-react';
 
 const TIERS = [
   { id: 'must-pick', label: 'Must Pick', color: 'var(--tier-1)', tierClass: 'tier-1' },

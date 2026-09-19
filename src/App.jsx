@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { Users, Calendar, ClipboardList, BarChart3, Settings, FileEdit, Globe, ListOrdered, ArrowLeft } from 'lucide-react';
+import { Users, Calendar, ClipboardList, BarChart3, Settings, FileEdit, Globe, ListOrdered, ArrowLeft, LayoutDashboard } from 'lucide-react';
 import { useData } from './hooks/useData';
+import DashboardView from './components/DashboardView';
 import TeamsView from './components/TeamsView';
 import MatchesView from './components/MatchesView';
 import ScoutView from './components/ScoutView';
@@ -12,6 +13,7 @@ import SettingsView from './components/SettingsView';
 import PicklistView from './components/PicklistView';
 
 const TABS = [
+  { id: 'dashboard', label: 'Home', icon: LayoutDashboard },
   { id: 'search', label: 'Lookup', icon: Globe },
   { id: 'teams', label: 'Teams', icon: Users },
   { id: 'matches', label: 'Matches', icon: Calendar },
@@ -22,7 +24,7 @@ const TABS = [
 
 export default function App() {
   const [data, update] = useData();
-  const [tab, setTab] = useState('search');
+  const [tab, setTab] = useState('dashboard');
   const [selectedTeam, setSelectedTeam] = useState(null);
   const [scoutTarget, setScoutTarget] = useState(null);
   const [showSettings, setShowSettings] = useState(false);
@@ -53,6 +55,8 @@ export default function App() {
       return <TeamDetail team={selectedTeam} data={data} update={update} onBack={() => setSelectedTeam(null)} onDelete={() => handleDeleteTeam(selectedTeam.id)} />;
     }
     switch (tab) {
+      case 'dashboard':
+        return <DashboardView data={data} onNavigate={(t) => setTab(t)} />;
       case 'search':
         return <FTCSearchView data={data} update={update} onViewTeam={handleSelectTeam} />;
       case 'teams':

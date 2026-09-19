@@ -110,20 +110,20 @@ export default function AnalyticsView({ data, onSelectTeam }) {
 
   return (
     <>
-      <div className="stat-grid">
-        <div className="stat-box">
+      <div className="stat-grid stat-grid-4">
+        <div className="stat-box stat-box-accent">
           <div className="stat-value">{overallStats.totalTeams}</div>
           <div className="stat-label">My Teams</div>
         </div>
-        <div className="stat-box">
+        <div className="stat-box stat-box-accent">
           <div className="stat-value">{overallStats.teamsWithOPR}</div>
           <div className="stat-label">With OPR</div>
         </div>
-        <div className="stat-box">
+        <div className="stat-box stat-box-accent">
           <div className="stat-value">{overallStats.totalEntries}</div>
           <div className="stat-label">Scouted</div>
         </div>
-        <div className="stat-box">
+        <div className="stat-box stat-box-accent">
           <div className="stat-value">{overallStats.totalMatches}</div>
           <div className="stat-label">Matches</div>
         </div>

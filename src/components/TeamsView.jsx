@@ -87,8 +87,10 @@ export default function TeamsView({ data, update, onSelectTeam }) {
         )}
       </div>
 
-      <div className="section-title">
-        {filtered.length} team{filtered.length !== 1 ? 's' : ''} — sorted by OPR
+      <div style={{ padding: '12px 16px 4px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div style={{ fontSize: 12, color: 'var(--text-secondary)', fontWeight: 600 }}>
+          {filtered.length} team{filtered.length !== 1 ? 's' : ''} — sorted by OPR
+        </div>
       </div>
 
       {filtered.length === 0 ? (
