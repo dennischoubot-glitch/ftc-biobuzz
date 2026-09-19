@@ -127,6 +127,42 @@ export function importData(file) {
   });
 }
 
+export function mergeData(incoming) {
+  const current = loadData();
+  const existingTeamKeys = new Set(current.teams.map(t => String(t.number)));
+  const existingEntryIds = new Set(current.scoutingEntries.map(e => e.id));
+  const existingMatchKeys = new Set(current.matches.map(m => `${m.number}-${m.red1}-${m.blue1}`));
+
+  const newTeams = (incoming.teams || []).filter(t => !existingTeamKeys.has(String(t.number)));
+  const newEntries = (incoming.scoutingEntries || []).filter(e => !existingEntryIds.has(e.id));
+  const newMatches = (incoming.matches || []).filter(m => !existingMatchKeys.has(`${m.number}-${m.red1}-${m.blue1}`));
+
+  const merged = {
+    ...current,
+    teams: [...current.teams, ...newTeams],
+    scoutingEntries: [...current.scoutingEntries, ...newEntries],
+    matches: [...current.matches, ...newMatches],
+  };
+  saveData(merged);
+  return { merged, added: { teams: newTeams.length, entries: newEntries.length, matches: newMatches.length } };
+}
+
+export function importMergeFile(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const incoming = JSON.parse(e.target.result);
+        const result = mergeData(incoming);
+        resolve(result);
+      } catch (err) {
+        reject(err);
+      }
+    };
+    reader.readAsText(file);
+  });
+}
+
 export function generateId() {
   return Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
 }

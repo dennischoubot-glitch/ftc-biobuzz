@@ -1,10 +1,12 @@
 import { useState } from 'react';
-import { Download, Upload, Trash2, Share2, Shield } from 'lucide-react';
-import { exportData, importData } from '../utils/storage';
+import { Download, Upload, Trash2, Share2, Shield, Users, Copy, Check, UserPlus } from 'lucide-react';
+import { exportData, importData, importMergeFile, loadData } from '../utils/storage';
 
 export default function SettingsView({ data, update }) {
   const [importStatus, setImportStatus] = useState(null);
-  const [shareUrl, setShareUrl] = useState(null);
+  const [mergeResult, setMergeResult] = useState(null);
+  const [copied, setCopied] = useState(false);
+  const scoutName = localStorage.getItem('scout-name') || '';
 
   function handleImport(e) {
     const file = e.target.files[0];
@@ -14,6 +16,22 @@ export default function SettingsView({ data, update }) {
         update(d);
         setImportStatus('success');
         setTimeout(() => setImportStatus(null), 3000);
+      })
+      .catch(() => {
+        setImportStatus('error');
+        setTimeout(() => setImportStatus(null), 3000);
+      });
+    e.target.value = '';
+  }
+
+  function handleMergeImport(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    importMergeFile(file)
+      .then(({ merged, added }) => {
+        update(merged);
+        setMergeResult(added);
+        setTimeout(() => setMergeResult(null), 5000);
       })
       .catch(() => {
         setImportStatus('error');
@@ -52,8 +70,49 @@ export default function SettingsView({ data, update }) {
     }
   }
 
+  async function copyDataToClipboard() {
+    const exportObj = {
+      teams: data.teams,
+      scoutingEntries: data.scoutingEntries,
+      matches: data.matches,
+      picklist: data.picklist,
+      exportedAt: new Date().toISOString(),
+    };
+    try {
+      await navigator.clipboard.writeText(JSON.stringify(exportObj));
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      exportData();
+    }
+  }
+
+  function handleScoutNameChange(e) {
+    localStorage.setItem('scout-name', e.target.value);
+  }
+
+  const scoutNames = [...new Set(data.scoutingEntries.map(e => e.scoutName).filter(Boolean))];
+
   return (
     <>
+      <div className="section-title">Your Scout Profile</div>
+      <div className="card">
+        <div className="card-body">
+          <div className="form-group" style={{ marginBottom: 8 }}>
+            <label className="form-label">Your Name</label>
+            <input
+              className="form-input"
+              placeholder="Enter your name"
+              defaultValue={scoutName}
+              onChange={handleScoutNameChange}
+            />
+          </div>
+          <div style={{ fontSize: 12, color: 'var(--text-secondary)' }}>
+            Your name is attached to every scouting entry you submit so the team knows who scouted what.
+          </div>
+        </div>
+      </div>
+
       <div className="section-title">My Team</div>
       <div className="card">
         <div className="card-body">
@@ -62,7 +121,7 @@ export default function SettingsView({ data, update }) {
             <input
               className="form-input"
               type="number"
-              placeholder="e.g. 12345"
+              placeholder="e.g. 16278"
               value={data.myTeam?.number || ''}
               onChange={e => update(d => ({ ...d, myTeam: { ...d.myTeam, number: e.target.value } }))}
             />
@@ -71,7 +130,7 @@ export default function SettingsView({ data, update }) {
             <label className="form-label">Team Name</label>
             <input
               className="form-input"
-              placeholder="e.g. TechBots"
+              placeholder="e.g. Error 404"
               value={data.myTeam?.name || ''}
               onChange={e => update(d => ({ ...d, myTeam: { ...d.myTeam, name: e.target.value } }))}
             />
@@ -80,7 +139,7 @@ export default function SettingsView({ data, update }) {
             <label className="form-label">School</label>
             <input
               className="form-input"
-              placeholder="e.g. Lincoln High School"
+              placeholder="e.g. Lincoln Middle School"
               value={data.myTeam?.school || ''}
               onChange={e => update(d => ({ ...d, myTeam: { ...d.myTeam, school: e.target.value } }))}
             />
@@ -88,23 +147,86 @@ export default function SettingsView({ data, update }) {
         </div>
       </div>
 
-      <div className="section-title">Data Management</div>
+      <div className="section-title">Team Sync</div>
       <div className="card">
+        <div className="card-body" style={{ fontSize: 13, color: 'var(--text-secondary)', lineHeight: 1.6, paddingBottom: 8 }}>
+          Each team member scouts on their own device. Use <strong>Merge Import</strong> to combine everyone's data without losing your own. Duplicates are automatically skipped.
+        </div>
+        <label className="card-row" style={{ cursor: 'pointer' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <UserPlus size={18} color="var(--success)" />
+            <div className="card-row-left">
+              <span style={{ fontWeight: 600, fontSize: 14 }}>Merge Import</span>
+              <span className="card-row-name">Add a teammate's data to yours (no overwrites)</span>
+            </div>
+          </div>
+          <input type="file" accept=".json" onChange={handleMergeImport} style={{ display: 'none' }} />
+        </label>
         <div className="card-row" onClick={shareData} style={{ cursor: 'pointer' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             <Share2 size={18} color="var(--primary)" />
             <div className="card-row-left">
-              <span style={{ fontWeight: 600, fontSize: 14 }}>Share Data</span>
-              <span className="card-row-name">Share scouting data with your team</span>
+              <span style={{ fontWeight: 600, fontSize: 14 }}>Share My Data</span>
+              <span className="card-row-name">Send your scouting data to teammates</span>
             </div>
           </div>
         </div>
+        <div className="card-row" onClick={copyDataToClipboard} style={{ cursor: 'pointer' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            {copied ? <Check size={18} color="var(--success)" /> : <Copy size={18} color="var(--primary)" />}
+            <div className="card-row-left">
+              <span style={{ fontWeight: 600, fontSize: 14 }}>{copied ? 'Copied!' : 'Copy to Clipboard'}</span>
+              <span className="card-row-name">Copy data as text to paste to a teammate</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {mergeResult && (
+        <div className="card" style={{ margin: '8px 12px' }}>
+          <div className="card-body" style={{ color: 'var(--success)', fontWeight: 600 }}>
+            Merged! Added {mergeResult.teams} team{mergeResult.teams !== 1 ? 's' : ''}, {mergeResult.entries} scouting entr{mergeResult.entries !== 1 ? 'ies' : 'y'}, {mergeResult.matches} match{mergeResult.matches !== 1 ? 'es' : ''}.
+          </div>
+        </div>
+      )}
+
+      {scoutNames.length > 0 && (
+        <>
+          <div className="section-title">Active Scouts</div>
+          <div className="card">
+            {scoutNames.map(name => {
+              const count = data.scoutingEntries.filter(e => e.scoutName === name).length;
+              return (
+                <div key={name} className="card-row">
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                    <div style={{
+                      width: 32, height: 32, borderRadius: '50%',
+                      background: 'var(--primary)', color: '#fff',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      fontWeight: 700, fontSize: 14,
+                    }}>
+                      {name.charAt(0).toUpperCase()}
+                    </div>
+                    <div className="card-row-left">
+                      <span style={{ fontWeight: 600, fontSize: 14 }}>{name}</span>
+                      <span className="card-row-name">{count} entr{count !== 1 ? 'ies' : 'y'}</span>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </>
+      )}
+
+      <div className="section-title">Data Management</div>
+      <div className="card">
         <div className="card-row" onClick={exportData} style={{ cursor: 'pointer' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             <Download size={18} color="var(--primary)" />
             <div className="card-row-left">
-              <span style={{ fontWeight: 600, fontSize: 14 }}>Export Backup</span>
-              <span className="card-row-name">Download all data as JSON</span>
+              <span style={{ fontWeight: 600, fontSize: 14 }}>Export Full Backup</span>
+              <span className="card-row-name">Download all data as JSON file</span>
             </div>
           </div>
         </div>
@@ -112,8 +234,8 @@ export default function SettingsView({ data, update }) {
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             <Upload size={18} color="var(--primary)" />
             <div className="card-row-left">
-              <span style={{ fontWeight: 600, fontSize: 14 }}>Import Data</span>
-              <span className="card-row-name">Load from a JSON backup</span>
+              <span style={{ fontWeight: 600, fontSize: 14 }}>Import (Replace All)</span>
+              <span className="card-row-name">Overwrite with a backup file</span>
             </div>
           </div>
           <input type="file" accept=".json" onChange={handleImport} style={{ display: 'none' }} />
@@ -143,8 +265,8 @@ export default function SettingsView({ data, update }) {
           <div className="stat-label">Scouted</div>
         </div>
         <div className="stat-box">
-          <div className="stat-value">{data.forms.length}</div>
-          <div className="stat-label">Forms</div>
+          <div className="stat-value">{scoutNames.length}</div>
+          <div className="stat-label">Scouts</div>
         </div>
       </div>
 
