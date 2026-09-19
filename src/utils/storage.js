@@ -131,11 +131,11 @@ export function mergeData(incoming) {
   const current = loadData();
   const existingTeamKeys = new Set(current.teams.map(t => String(t.number)));
   const existingEntryIds = new Set(current.scoutingEntries.map(e => e.id));
-  const existingMatchKeys = new Set(current.matches.map(m => `${m.number}-${m.red1}-${m.blue1}`));
+  const existingMatchKeys = new Set(current.matches.map(m => `${m.matchNumber}-${m.red1}-${m.blue1}`));
 
   const newTeams = (incoming.teams || []).filter(t => !existingTeamKeys.has(String(t.number)));
   const newEntries = (incoming.scoutingEntries || []).filter(e => !existingEntryIds.has(e.id));
-  const newMatches = (incoming.matches || []).filter(m => !existingMatchKeys.has(`${m.number}-${m.red1}-${m.blue1}`));
+  const newMatches = (incoming.matches || []).filter(m => !existingMatchKeys.has(`${m.matchNumber}-${m.red1}-${m.blue1}`));
 
   const merged = {
     ...current,

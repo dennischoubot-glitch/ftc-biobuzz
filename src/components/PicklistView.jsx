@@ -6,6 +6,7 @@ const TIERS = [
   { id: 'good-pick', label: 'Good Pick', color: 'var(--tier-2)', tierClass: 'tier-2' },
   { id: 'okay-pick', label: 'Backup', color: 'var(--tier-3)', tierClass: 'tier-3' },
   { id: 'do-not-pick', label: 'Do Not Pick', color: 'var(--tier-4)', tierClass: 'tier-4' },
+  { id: 'picked', label: 'Already Picked', color: '#888888', tierClass: 'tier-picked' },
 ];
 
 export default function PicklistView({ data, update, onSelectTeam }) {
@@ -125,7 +126,7 @@ export default function PicklistView({ data, update, onSelectTeam }) {
                   const scout = scoutingScore(item.number);
                   const overallRank = picklist.filter(p => p.tier === tier.id).indexOf(item);
                   return (
-                    <div key={item.number} className="picklist-item">
+                    <div key={item.number} className={`picklist-item${tier.id === 'picked' ? ' is-picked' : ''}`}>
                       <div className={`picklist-rank ${tier.tierClass}`}>
                         {overallRank + 1}
                       </div>
@@ -144,14 +145,26 @@ export default function PicklistView({ data, update, onSelectTeam }) {
                         </div>
                       </div>
                       <div className="picklist-actions">
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                          <button className="btn btn-sm btn-secondary" style={{ padding: 3 }} onClick={() => moveInTier(item.number, -1)}>
-                            <ChevronUp size={12} />
+                        {tier.id !== 'picked' && (
+                          <>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                              <button className="btn btn-sm btn-secondary" style={{ padding: 3 }} onClick={() => moveInTier(item.number, -1)}>
+                                <ChevronUp size={12} />
+                              </button>
+                              <button className="btn btn-sm btn-secondary" style={{ padding: 3 }} onClick={() => moveInTier(item.number, 1)}>
+                                <ChevronDown size={12} />
+                              </button>
+                            </div>
+                            <button className="btn btn-sm" style={{ padding: '3px 6px', fontSize: 10, background: '#888', color: '#fff', border: 'none' }} onClick={() => changeTier(item.number, 'picked')} title="Mark as picked by another alliance">
+                              Taken
+                            </button>
+                          </>
+                        )}
+                        {tier.id === 'picked' && (
+                          <button className="btn btn-sm btn-secondary" style={{ padding: '3px 6px', fontSize: 10 }} onClick={() => changeTier(item.number, 'good-pick')}>
+                            Undo
                           </button>
-                          <button className="btn btn-sm btn-secondary" style={{ padding: 3 }} onClick={() => moveInTier(item.number, 1)}>
-                            <ChevronDown size={12} />
-                          </button>
-                        </div>
+                        )}
                         <button className="btn btn-sm btn-secondary btn-delete" onClick={() => removeTeam(item.number)}>
                           <Trash2 size={12} />
                         </button>
@@ -201,7 +214,7 @@ export default function PicklistView({ data, update, onSelectTeam }) {
                       </div>
                     </div>
                     <div style={{ display: 'flex', gap: 6 }}>
-                      {TIERS.map(tier => (
+                      {TIERS.filter(t => t.id !== 'picked').map(tier => (
                         <button
                           key={tier.id}
                           className="btn btn-sm"

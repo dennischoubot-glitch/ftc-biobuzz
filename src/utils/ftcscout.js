@@ -17,7 +17,7 @@ export async function searchTeams(searchText, limit = 30) {
   if (isNumber) {
     const num = parseInt(searchText.trim());
     const [directResult, searchResult] = await Promise.allSettled([
-      gql(`query($n: Int!) { teamByNumber(number: $n) { number name schoolName location { city state country } rookieYear activeSeasons quickStats(season: 2025) { tot { value rank } auto { value rank } dc { value rank } eg { value rank } count } } }`, { n: num }),
+      gql(`query($n: Int!) { teamByNumber(number: $n) { number name schoolName location { city state country } rookieYear activeSeasons stats2026: quickStats(season: 2026) { tot { value rank } auto { value rank } dc { value rank } eg { value rank } count } stats2025: quickStats(season: 2025) { tot { value rank } auto { value rank } dc { value rank } eg { value rank } count } } }`, { n: num }).then(d => { if (d.teamByNumber) { const t = d.teamByNumber; t.quickStats = t.stats2026 || t.stats2025 || null; t.statsSeason = t.stats2026 ? 2026 : t.stats2025 ? 2025 : null; } return d; }),
       gql(`query($s: String!, $l: Int!) { teamsSearch(searchText: $s, limit: $l) { number name schoolName location { city state country } rookieYear activeSeasons } }`, { s: searchText.trim(), l: limit }),
     ]);
 

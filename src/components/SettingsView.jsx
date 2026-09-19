@@ -41,14 +41,18 @@ export default function SettingsView({ data, update }) {
   }
 
   function clearAll() {
-    if (!confirm('Delete ALL scouting data, teams, matches, and custom forms? This cannot be undone.')) return;
+    if (!confirm('Delete ALL scouting data, teams, matches, custom forms, pick list, and cached stats? This cannot be undone.')) return;
     if (!confirm('Are you really sure? This will erase everything.')) return;
-    update({
+    update(d => ({
+      ...d,
       myTeam: { number: '', name: '', school: '' },
       teams: [],
       matches: [],
       scoutingEntries: [],
-    });
+      picklist: [],
+      ftcScoutCache: {},
+      forms: d.forms.filter(f => ['match-scout', 'pit-scout', 'alliance-pick'].includes(f.id)),
+    }));
   }
 
   async function shareData() {

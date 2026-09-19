@@ -195,6 +195,37 @@ export default function AnalyticsView({ data, onSelectTeam }) {
         </div>
       )}
 
+      {filtered.filter(t => t.oprTotal > 0).length >= 2 && (
+        <div className="card" style={{ margin: '0 12px 8px' }}>
+          <div className="card-header">
+            <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}><BarChart3 size={14} /> OPR Distribution</span>
+          </div>
+          <div className="card-body" style={{ padding: '12px 16px' }}>
+            {filtered.filter(t => t.oprTotal > 0).slice(0, 15).map(team => {
+              const autoW = maxOPR > 0 ? (team.oprAuto / maxOPR) * 100 : 0;
+              const dcW = maxOPR > 0 ? (team.oprDC / maxOPR) * 100 : 0;
+              const egW = maxOPR > 0 ? (team.oprEG / maxOPR) * 100 : 0;
+              return (
+                <div key={team.number} style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
+                  <span style={{ fontSize: 11, fontWeight: 700, width: 48, textAlign: 'right', color: 'var(--primary)', flexShrink: 0 }}>#{team.number}</span>
+                  <div style={{ flex: 1, display: 'flex', height: 18, borderRadius: 4, overflow: 'hidden', background: 'var(--bg-secondary)' }}>
+                    <div style={{ width: `${autoW}%`, background: '#2196f3', transition: 'width 0.5s' }} title={`Auto: ${team.oprAuto.toFixed(1)}`} />
+                    <div style={{ width: `${dcW}%`, background: '#ff9800', transition: 'width 0.5s' }} title={`TeleOp: ${team.oprDC.toFixed(1)}`} />
+                    <div style={{ width: `${egW}%`, background: '#4caf50', transition: 'width 0.5s' }} title={`Endgame: ${team.oprEG.toFixed(1)}`} />
+                  </div>
+                  <span style={{ fontSize: 11, fontWeight: 700, width: 36, flexShrink: 0 }}>{team.oprTotal.toFixed(0)}</span>
+                </div>
+              );
+            })}
+            <div style={{ display: 'flex', gap: 16, justifyContent: 'center', marginTop: 8, fontSize: 11 }}>
+              <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}><span style={{ width: 10, height: 10, borderRadius: 2, background: '#2196f3', display: 'inline-block' }} /> Auto</span>
+              <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}><span style={{ width: 10, height: 10, borderRadius: 2, background: '#ff9800', display: 'inline-block' }} /> TeleOp</span>
+              <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}><span style={{ width: 10, height: 10, borderRadius: 2, background: '#4caf50', display: 'inline-block' }} /> Endgame</span>
+            </div>
+          </div>
+        </div>
+      )}
+
       {filtered.length === 0 ? (
         <div className="empty">
           <BarChart3 size={48} />

@@ -9,6 +9,7 @@ export default function TeamsView({ data, update, onSelectTeam }) {
   const [editTeam, setEditTeam] = useState(null);
   const [form, setForm] = useState({ number: '', name: '', school: '', notes: '' });
   const [fetchingAll, setFetchingAll] = useState(false);
+  const [fetchProgress, setFetchProgress] = useState({ done: 0, total: 0 });
 
   const filtered = data.teams
     .filter(t =>
@@ -52,13 +53,22 @@ export default function TeamsView({ data, update, onSelectTeam }) {
   }
 
   async function fetchAllOPR() {
+    const teams = data.teams.filter(t => t.number);
+    if (teams.length === 0) return;
     setFetchingAll(true);
+    setFetchProgress({ done: 0, total: teams.length });
     const cache = { ...data.ftcScoutCache };
-    for (const team of data.teams) {
-      if (!team.number) continue;
-      try {
-        const d = await getTeamQuickLookup(Number(team.number));
-        if (d) {
+    let done = 0;
+
+    const BATCH_SIZE = 5;
+    for (let i = 0; i < teams.length; i += BATCH_SIZE) {
+      const batch = teams.slice(i, i + BATCH_SIZE);
+      const results = await Promise.allSettled(
+        batch.map(team => getTeamQuickLookup(Number(team.number)).then(d => ({ team, d })))
+      );
+      results.forEach(r => {
+        if (r.status === 'fulfilled' && r.value.d) {
+          const { team, d } = r.value;
           cache[team.number] = { ...cache[team.number], ...d, fetchedAt: Date.now() };
           if (d.name && !team.name) {
             update(prev => ({
@@ -67,7 +77,9 @@ export default function TeamsView({ data, update, onSelectTeam }) {
             }));
           }
         }
-      } catch {}
+      });
+      done += batch.length;
+      setFetchProgress({ done, total: teams.length });
     }
     update(prev => ({ ...prev, ftcScoutCache: cache }));
     setFetchingAll(false);
@@ -81,8 +93,10 @@ export default function TeamsView({ data, update, onSelectTeam }) {
           <input className="form-input" style={{ paddingLeft: 36 }} placeholder="Search teams..." value={search} onChange={e => setSearch(e.target.value)} />
         </div>
         {data.teams.length > 0 && (
-          <button className="btn btn-sm btn-secondary" onClick={fetchAllOPR} disabled={fetchingAll} title="Fetch OPR for all teams">
-            {fetchingAll ? <Loader2 size={14} className="spin" /> : <RefreshCw size={14} />}
+          <button className="btn btn-sm btn-secondary" onClick={fetchAllOPR} disabled={fetchingAll} title="Fetch OPR for all teams" style={{ minWidth: fetchingAll ? 80 : undefined }}>
+            {fetchingAll ? (
+              <><Loader2 size={14} className="spin" /> {fetchProgress.done}/{fetchProgress.total}</>
+            ) : <RefreshCw size={14} />}
           </button>
         )}
       </div>

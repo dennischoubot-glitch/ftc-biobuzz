@@ -16,7 +16,7 @@ export default function FormsView({ data, update }) {
   const [formDesc, setFormDesc] = useState('');
   const [questions, setQuestions] = useState([]);
   const [addingQuestion, setAddingQuestion] = useState(false);
-  const [newQ, setNewQ] = useState({ label: '', type: 'number', options: '', required: false, max: 5 });
+  const [newQ, setNewQ] = useState({ label: '', type: 'number', options: '', required: false, max: 5, section: '' });
 
   function startEdit(form) {
     setEditingForm(form);
@@ -82,8 +82,11 @@ export default function FormsView({ data, update }) {
     if (newQ.type === 'rating') {
       q.max = Number(newQ.max) || 5;
     }
+    if (newQ.section.trim()) {
+      q.section = newQ.section.trim();
+    }
     setQuestions(prev => [...prev, q]);
-    setNewQ({ label: '', type: 'number', options: '', required: false, max: 5 });
+    setNewQ({ label: '', type: 'number', options: '', required: false, max: 5, section: '' });
     setAddingQuestion(false);
   }
 
@@ -163,6 +166,10 @@ export default function FormsView({ data, update }) {
                     <input className="form-input" type="number" min="3" max="10" value={newQ.max} onChange={e => setNewQ({ ...newQ, max: e.target.value })} />
                   </div>
                 )}
+                <div className="form-group">
+                  <label className="form-label">Section</label>
+                  <input className="form-input" placeholder="e.g. Autonomous, TeleOp, Performance" value={newQ.section} onChange={e => setNewQ({ ...newQ, section: e.target.value })} />
+                </div>
                 <div className="form-group">
                   <label style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 14 }}>
                     <input type="checkbox" checked={newQ.required} onChange={e => setNewQ({ ...newQ, required: e.target.checked })} />

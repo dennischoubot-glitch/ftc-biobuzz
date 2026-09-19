@@ -27,6 +27,7 @@
   --tier-2: #cc0000;
   --tier-3: #ff9100;
   --tier-4: #333333;
+  --blue-win-bg: #e3f2fd;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -51,6 +52,7 @@
     --shadow-md: 0 4px 12px rgba(0,0,0,0.3);
     --shadow-lg: 0 12px 32px rgba(0,0,0,0.5);
     --header-bg: #8b0000;
+    --blue-win-bg: #0d2137;
   }
 }
 
@@ -708,6 +710,12 @@ body {
 .picklist-rank.tier-2 { background: var(--tier-2); }
 .picklist-rank.tier-3 { background: var(--tier-3); }
 .picklist-rank.tier-4 { background: var(--tier-4); }
+.picklist-rank.tier-picked { background: #888888; }
+.picklist-item.is-picked {
+  opacity: 0.55;
+  text-decoration: line-through;
+  text-decoration-color: var(--text-secondary);
+}
 .picklist-info { flex: 1; min-width: 0; }
 .picklist-actions { display: flex; gap: 4px; flex-shrink: 0; }
 

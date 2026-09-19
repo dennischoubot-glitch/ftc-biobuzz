@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { ClipboardList, ChevronRight, Check, Trash2, ArrowRight } from 'lucide-react';
 import { generateId } from '../utils/storage';
 
@@ -46,6 +46,11 @@ export default function ScoutView({ data, update, initialTeam, initialMatch }) {
   const [selectedForm, setSelectedForm] = useState(null);
   const [teamNumber, setTeamNumber] = useState(initialTeam || '');
   const [matchNumber, setMatchNumber] = useState(initialMatch || '');
+
+  useEffect(() => {
+    if (initialTeam) setTeamNumber(initialTeam);
+    if (initialMatch) setMatchNumber(initialMatch);
+  }, [initialTeam, initialMatch]);
   const [scoutName, setScoutName] = useState(localStorage.getItem('scout-name') || '');
   const [answers, setAnswers] = useState({});
   const [submitted, setSubmitted] = useState(false);

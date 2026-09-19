@@ -154,7 +154,7 @@ export default function MatchesView({ data, update, onScout }) {
                     style={{ padding: '6px 8px', fontSize: 18, fontWeight: 800, color: 'var(--danger)', textAlign: 'center' }}
                   />
                 </div>
-                <div style={{ padding: '12px 14px', background: winner === 'blue' ? '#e3f2fd' : undefined }}>
+                <div style={{ padding: '12px 14px', background: winner === 'blue' ? 'var(--blue-win-bg, #e3f2fd)' : undefined }}>
                   <div style={{ fontSize: 11, fontWeight: 700, color: '#1565c0', marginBottom: 4, letterSpacing: 0.5 }}>BLUE ALLIANCE</div>
                   <div style={{ fontSize: 13, fontWeight: isMyTeam(match.blue1) ? 700 : 400, marginBottom: 2 }}>
                     {match.blue1 ? `#${match.blue1}` : '—'} {match.blue1 && <span style={{ color: 'var(--text-secondary)', fontSize: 11 }}>{teamName(match.blue1)}</span>}
