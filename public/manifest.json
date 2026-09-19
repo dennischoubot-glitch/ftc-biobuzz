@@ -1,0 +1,17 @@
+{
+  "name": "BioBuzz Scout",
+  "short_name": "BioBuzz",
+  "description": "FTC BioBuzz 2025-2026 Scouting App",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#cc0000",
+  "theme_color": "#cc0000",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
