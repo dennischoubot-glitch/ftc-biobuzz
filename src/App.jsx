@@ -87,6 +87,12 @@ export default function App({ initialView }) {
     }
   }
 
+  const viewKey = showAbout ? 'about'
+    : showSettings ? 'settings'
+    : showForms ? 'forms'
+    : selectedTeam ? `team-${selectedTeam.id || selectedTeam.number}`
+    : tab;
+
   const isSubView = showSettings || showForms || showAbout || selectedTeam;
 
   const headerTitle = showAbout ? 'About'
@@ -144,7 +150,9 @@ export default function App({ initialView }) {
       </div>
 
       <div className="content">
-        {renderContent()}
+        <div key={viewKey} className="page-transition">
+          {renderContent()}
+        </div>
       </div>
     </>
   );
