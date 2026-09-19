@@ -42,9 +42,9 @@ export default function AboutView({ data, onNavigate, is404 }) {
             a team. Our team number is reused from a previous team that is no longer active, so while
             the number has history, we're writing our own chapter.
           </p>
-          <div style={{ marginTop: 16 }}>
+          <div style={{ marginTop: 16, display: 'flex', flexWrap: 'wrap', gap: 10 }}>
             <a
-              href="https://www.youtube.com/@ftc16278"
+              href="https://www.youtube.com/@FTC16278"
               target="_blank"
               rel="noopener noreferrer"
               style={{
@@ -54,7 +54,19 @@ export default function AboutView({ data, onNavigate, is404 }) {
               }}
             >
               <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M23.5 6.19a3.02 3.02 0 0 0-2.12-2.14C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.38.55A3.02 3.02 0 0 0 .5 6.19 31.6 31.6 0 0 0 0 12a31.6 31.6 0 0 0 .5 5.81 3.02 3.02 0 0 0 2.12 2.14c1.88.55 9.38.55 9.38.55s7.5 0 9.38-.55a3.02 3.02 0 0 0 2.12-2.14A31.6 31.6 0 0 0 24 12a31.6 31.6 0 0 0-.5-5.81zM9.75 15.02V8.98L15.5 12l-5.75 3.02z"/></svg>
-              {' '}@ftc16278 on YouTube
+              {' '}@FTC16278 on YouTube
+            </a>
+            <a
+              href="https://donate.piedmontmakers.org/"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: 8,
+                background: '#1a1a1a', color: '#fff', padding: '8px 16px',
+                borderRadius: 8, fontWeight: 600, fontSize: 14, textDecoration: 'none',
+              }}
+            >
+              <Heart size={16} /> Donate
             </a>
           </div>
         </div>
