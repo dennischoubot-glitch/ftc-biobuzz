@@ -130,9 +130,11 @@ export default function MatchesView({ data, update, onScout }) {
         })
       )}
 
-      <button className="btn-fab" onClick={() => setShowAdd(true)}>
-        <Plus size={24} />
-      </button>
+      <div style={{ padding: '8px 16px' }}>
+        <button className="btn-add" onClick={() => setShowAdd(true)}>
+          <Plus size={16} /> Add Match
+        </button>
+      </div>
 
       {showAdd && (
         <div className="modal-overlay" onClick={() => setShowAdd(false)}>

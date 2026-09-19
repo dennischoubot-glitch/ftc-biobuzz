@@ -138,9 +138,11 @@ export default function TeamsView({ data, update, onSelectTeam }) {
         </div>
       )}
 
-      <button className="btn-fab" onClick={() => { setForm({ number: '', name: '', school: '', notes: '' }); setEditTeam(null); setShowAdd(true); }}>
-        <Plus size={24} />
-      </button>
+      <div style={{ padding: '8px 16px' }}>
+        <button className="btn-add" onClick={() => { setForm({ number: '', name: '', school: '', notes: '' }); setEditTeam(null); setShowAdd(true); }}>
+          <Plus size={16} /> Add Team
+        </button>
+      </div>
 
       {showAdd && (
         <div className="modal-overlay" onClick={() => setShowAdd(false)}>

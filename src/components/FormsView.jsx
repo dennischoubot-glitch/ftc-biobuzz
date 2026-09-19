@@ -221,9 +221,11 @@ export default function FormsView({ data, update }) {
         </div>
       ))}
 
-      <button className="btn-fab" onClick={startNew}>
-        <Plus size={24} />
-      </button>
+      <div style={{ padding: '8px 16px' }}>
+        <button className="btn-add" onClick={startNew}>
+          <Plus size={16} /> New Form
+        </button>
+      </div>
     </>
   );
 }

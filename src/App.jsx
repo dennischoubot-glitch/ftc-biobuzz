@@ -96,10 +96,24 @@ export default function App() {
             <ArrowLeft size={18} />
           </button>
         )}
-        <div style={{ flex: 1 }}>
+        <div>
           <h1>{headerTitle || 'BioBuzz Scout'}</h1>
           {!isSubView && <div className="header-season">FTC 2025-2026 Season</div>}
         </div>
+        {!isSubView && (
+          <div className="nav">
+            {TABS.map(t => (
+              <button
+                key={t.id}
+                className={`nav-item ${tab === t.id ? 'active' : ''}`}
+                onClick={() => { setTab(t.id); setScoutTarget(null); }}
+              >
+                <t.icon size={16} />
+                {t.label}
+              </button>
+            ))}
+          </div>
+        )}
         <div style={{ display: 'flex', gap: 4 }}>
           {!isSubView && (
             <>
@@ -117,21 +131,6 @@ export default function App() {
       <div className="content">
         {renderContent()}
       </div>
-
-      {!isSubView && (
-        <div className="nav">
-          {TABS.map(t => (
-            <button
-              key={t.id}
-              className={`nav-item ${tab === t.id ? 'active' : ''}`}
-              onClick={() => { setTab(t.id); setScoutTarget(null); }}
-            >
-              <t.icon size={22} />
-              {t.label}
-            </button>
-          ))}
-        </div>
-      )}
     </>
   );
 }
